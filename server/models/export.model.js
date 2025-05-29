@@ -1,22 +1,58 @@
 const mongoose = require('mongoose');
 
 const exportSchema = new mongoose.Schema({
-    customerName: { type: String, required: true },
+    billNumber: {
+        type: String,
+        unique: true,
+        default: function () {
+            // Tạo mã hóa đơn: XB + timestamp + random
+            return 'XB' + Date.now() + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        }
+    },
+    customerName: {
+        type: String,
+        required: true
+    },
     items: [{
-        name: { type: String, required: true },
-        price: { type: Number, required: true },
-        quantity: { type: Number, required: true },
-        total: { type: Number, default: 0 }
+        name: {
+            type: String,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1
+        },
+        total: {
+            type: Number,
+            default: 0
+        }
     }],
-    totalAmount: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now }
+    totalAmount: {
+        type: Number,
+        default: 0
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
 
+// Middleware tính toán tự động trước khi save
 exportSchema.pre('save', function (next) {
+    // Tính total cho từng item
     this.items.forEach(item => {
         item.total = item.price * item.quantity;
     });
+
+    // Tính tổng tiền
     this.totalAmount = this.items.reduce((sum, item) => sum + item.total, 0);
+
     next();
 });
 
