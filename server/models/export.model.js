@@ -13,6 +13,16 @@ const exportSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    customerPhone: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /^\d{10}$/.test(v); // Kiểm tra số điện thoại 10 chữ số
+            },
+            message: props => `${props.value} không phải là số điện thoại hợp lệ!`
+        }
+    },
     items: [{
         name: {
             type: String,

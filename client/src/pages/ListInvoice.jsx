@@ -68,10 +68,16 @@ const ListInvoice = () => {
             key: 'customerName',
         },
         {
+            title: 'Số điện thoại',
+            dataIndex: 'customerPhone',
+            key: 'customerPhone',
+        },
+        {
             title: 'Số sản phẩm',
             dataIndex: 'items',
             key: 'items',
             render: (items) => items.length,
+            align: 'center',
         },
         {
             title: 'Tổng tiền',
@@ -114,8 +120,8 @@ const ListInvoice = () => {
 
     return (
         <Layout>
-            <Content style={{ maxWidth: 1000, margin: '0 auto', padding: '24px' }}>
-                <Title level={2}>Danh Sách Hóa Đơn</Title>
+            <Content style={{ maxWidth: 1200, margin: '0 auto', padding: '24px' }}>
+                <Title level={3}>Danh Sách Hóa Đơn</Title>
                 {loading ? (
                     <Spin tip="Đang tải..." />
                 ) : bills.length === 0 ? (
@@ -127,6 +133,7 @@ const ListInvoice = () => {
                         rowKey="_id"
                         bordered
                         pagination={{ pageSize: 5 }}
+                        scroll={{ x: 800 }}
                     />
                 )}
             </Content>

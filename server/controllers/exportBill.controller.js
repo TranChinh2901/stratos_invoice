@@ -4,11 +4,17 @@ const exportModel = require("../models/export.model");
 const createExportBillController = async (req, res) => {
     try {
         // Validate required fields
-        const { customerName, items } = req.body;
+        const { customerName, customerPhone, items } = req.body;
         if (!customerName || !items || !Array.isArray(items) || items.length === 0) {
             return res.status(400).json({
                 success: false,
                 message: 'Customer name and items are required'
+            });
+        }
+        if (!customerPhone || !/^\d{10}$/.test(customerPhone)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Valid customer phone number is required'
             });
         }
 

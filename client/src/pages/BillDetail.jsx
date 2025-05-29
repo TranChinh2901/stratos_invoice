@@ -203,14 +203,17 @@ const BillDetail = () => {
                 </div>
 
                 {/* Bill Content - chỉ phần này được in */}
-                <Card id="bill-content" style={{ backgroundColor: 'white', marginTop: '20px' }}>
-                    <div>
-                        Tên cửa hàng: <Text strong>ABC Store</Text>
+                <Card id="bill-content" style={{ backgroundColor: 'white' }}>
+                    <div >
+                        <Text strong>Tên cửa hàng: </Text>
+                        <Text ><Text strong>ABC</Text> Store</Text>
                     </div>
-                    <div>
-                        Địa chỉ: 18/06/02b Phạm Nhữ Tăng, Quận Thanh Khê, TP. Đà Nẵng
+                    <div style={{ marginBottom: '20px' }}>
+                        <Text strong>Địa chỉ: </Text>
+                        <Text>18/06/02b Phạm Nhữ Tăng, Quận Thanh Khê, TP. Đà Nẵng</Text>
                     </div>
-                    <div style={{ textAlign: 'center', marginBottom: '30px', marginTop: '15px' }}>
+
+                    <div style={{ textAlign: 'center', marginBottom: '30px' }}>
                         <Title level={3} style={{ marginBottom: '5px' }}>
                             HÓA ĐƠN BÁN HÀNG
                         </Title>
@@ -218,13 +221,15 @@ const BillDetail = () => {
                     </div>
 
                     <Row gutter={[16, 16]} style={{ marginBottom: '30px' }}>
-                        <Col span={12}>
-                            <div>
+                        <Col span={24}>
+                            <div style={{ marginBottom: '10px' }}>
                                 <Text strong>Khách hàng: </Text>
                                 <Text>{bill.customerName}</Text>
                             </div>
-                        </Col>
-                        <Col span={12}>
+                            <div style={{ marginBottom: '10px' }}>
+                                <Text strong>Số điện thoại: </Text>
+                                <Text>{bill.customerPhone}</Text>
+                            </div>
                             <div style={{ textAlign: 'right' }}>
                                 <Text strong>Ngày tạo: </Text>
                                 <Text>{new Date(bill.createdAt).toLocaleDateString('vi-VN')}</Text>

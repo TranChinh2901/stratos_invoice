@@ -5,7 +5,7 @@ import BillDetail from "./pages/BillDetail";
 import { useState } from "react";
 
 const App = () => {
-  const [selectedBill, setSelectedBill] = useState(null);
+  const [setSelectedBill] = useState(null);
 
   const handleViewBill = (bill) => {
     setSelectedBill(bill);

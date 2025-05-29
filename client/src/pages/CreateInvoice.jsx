@@ -138,6 +138,7 @@ const CreateInvoice = () => {
         try {
             const billData = {
                 customerName: values.customerName,
+                customerPhone: values.customerPhone,
                 items: items.map(item => ({
                     name: item.name,
                     price: item.price,
@@ -189,6 +190,19 @@ const CreateInvoice = () => {
                         >
                             <Input placeholder="Nhập tên khách hàng" />
                         </Form.Item>
+                        <Form.Item
+                            label="Số điện thoại khách hàng"
+                            name="customerPhone"
+                            rules={[
+                                { required: true, message: 'Nhập số điện thoại khách hàng!' },
+                                {
+                                    pattern: /^[0-9]{10,11}$/,
+                                    message: 'Số điện thoại không hợp lệ (10-11 chữ số)!'
+                                }
+                            ]}
+                        >
+                            <Input placeholder="Nhập số điện thoại khách hàng" />
+                        </Form.Item>
 
                         {/* Danh sách sản phẩm */}
                         <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>
@@ -200,7 +214,7 @@ const CreateInvoice = () => {
                                     type="dashed"
                                     icon={<PlusOutlined />}
                                     onClick={addItem}
-                                    size="small"
+                                    size="middle"
                                 >
                                     Thêm
                                 </Button>
