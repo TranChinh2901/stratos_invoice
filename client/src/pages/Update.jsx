@@ -5,6 +5,7 @@ import { PlusOutlined, DeleteOutlined, SaveOutlined, ArrowLeftOutlined } from '@
 import Layout from "../components/Layout/Layout";
 import toast from 'react-hot-toast';
 const { Title } = Typography;
+const API_URL = import.meta.env.VITE_API;
 
 const UpdateInvoice = () => {
     const { id } = useParams();
@@ -21,7 +22,7 @@ const UpdateInvoice = () => {
 
     const fetchBillDetail = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/export/${id}`);
+            const response = await fetch(`${API_URL}/api/v1/export/${id}`);
             const result = await response.json();
 
             if (result.success) {
@@ -194,7 +195,7 @@ const UpdateInvoice = () => {
                 }))
             };
 
-            const response = await fetch(`http://localhost:3000/api/v1/export/${id}`, {
+            const response = await fetch(`${API_URL}/api/v1/export/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(billData),

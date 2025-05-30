@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table, Button, Popconfirm, message, Spin, Typography, Layout as AntLayout } from 'antd';
 import Layout from '../components/Layout/Layout';
+const API_URL = import.meta.env.VITE_API;
 
 const { Title } = Typography;
 const { Content } = AntLayout;
@@ -13,7 +14,7 @@ const ListInvoice = () => {
 
     const fetchBills = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/export');
+            const response = await fetch(`${API_URL}/api/v1/export`);
             const result = await response.json();
 
             if (result.success) {
@@ -35,7 +36,7 @@ const ListInvoice = () => {
 
     const deleteBill = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/export/${id}`, {
+            const response = await fetch(`${API_URL}/api/v1/export/${id}`, {
                 method: 'DELETE',
             });
             const result = await response.json();

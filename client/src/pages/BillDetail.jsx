@@ -5,6 +5,7 @@ import { PrinterOutlined, ArrowLeftOutlined, DownloadOutlined, EditOutlined } fr
 import Layout from '../components/Layout/Layout';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+const API_URL = import.meta.env.VITE_API;
 
 const { Title, Text } = Typography;
 
@@ -20,7 +21,7 @@ const BillDetail = () => {
 
     const fetchBillDetail = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/export/${id}`);
+            const response = await fetch(`${API_URL}/api/v1/export/${id}`);
             const result = await response.json();
 
             if (result.success) {

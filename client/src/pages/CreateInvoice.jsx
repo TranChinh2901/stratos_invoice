@@ -4,6 +4,7 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import Layout from "../components/Layout/Layout";
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API;
 
 const { Title } = Typography;
 
@@ -146,7 +147,7 @@ const CreateInvoice = () => {
                 }))
             };
 
-            const response = await fetch('http://localhost:3000/api/v1/export', {
+            const response = await fetch(`${API_URL}/api/v1/export`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(billData),
