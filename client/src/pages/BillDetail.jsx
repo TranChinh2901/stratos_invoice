@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Table, Button, Typography, Row, Col, Divider, Spin } from 'antd';
-import { PrinterOutlined, ArrowLeftOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PrinterOutlined, ArrowLeftOutlined, DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import Layout from '../components/Layout/Layout';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -36,7 +36,6 @@ const BillDetail = () => {
     };
 
     const handlePrint = () => {
-        // Thêm CSS cho print
         const printStyles = `
             <style>
                 @media print {
@@ -122,6 +121,10 @@ const BillDetail = () => {
         pdf.save(`hoa-don-${bill.billNumber}.pdf`);
     };
 
+    const handleUpadteBill = () => {
+        navigate(`/edit/${id}`);
+    }
+
     const columns = [
         {
             title: 'STT',
@@ -152,7 +155,10 @@ const BillDetail = () => {
             dataIndex: 'total',
             key: 'total',
             align: 'right',
-            render: (total) => `${total.toLocaleString('vi-VN')} VNĐ`,
+            render: (_, record) => {
+                const total = record.price * record.quantity;
+                return `${total.toLocaleString('vi-VN')} VNĐ`;
+            },
         },
     ];
 
@@ -188,13 +194,20 @@ const BillDetail = () => {
                         Quay lại
                     </Button>
                     <Button
-                        type="primary"
+
                         icon={<PrinterOutlined />}
                         onClick={handlePrint}
                     >
-                        In hóa đơn
+                        In full bill
                     </Button>
                     <Button
+                        icon={<EditOutlined />}
+                        onClick={handleUpadteBill}
+                    >
+                        Sửa
+                    </Button>
+                    <Button
+                        type="primary"
                         icon={<DownloadOutlined />}
                         onClick={handleDownloadPDF}
                     >
@@ -214,10 +227,10 @@ const BillDetail = () => {
                     </div>
 
                     <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-                        <Title level={3} style={{ marginBottom: '5px' }}>
+                        <Title level={4} style={{ marginBottom: '5px' }}>
                             HÓA ĐƠN BÁN HÀNG
                         </Title>
-                        <Text strong>Số: {bill.billNumber}</Text>
+                        <Text strong>Mã số thuế: {bill.billNumber}</Text>
                     </div>
 
                     <Row gutter={[16, 16]} style={{ marginBottom: '30px' }}>
@@ -258,10 +271,122 @@ const BillDetail = () => {
                     />
 
                     <Divider />
+                    <div className="signature-area" style={{ marginTop: '40px' }}>
+                        <Row gutter={[32, 24]} justify="space-between">
+                            {/* Chữ ký cửa hàng */}
+                            <Col xs={24} sm={12} style={{ textAlign: 'center' }}>
+                                <div style={{
+                                    padding: '10px',
+                                    border: '1px solid #f1eeee',
+                                    borderRadius: '8px',
+                                    minHeight: '120px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between'
+                                }}>
+                                    <div>
+                                        <Text strong style={{
+                                            fontSize: '16px',
+                                            display: 'block',
+                                            marginBottom: '8px'
+                                        }}>
+                                            Người bán hàng
+                                        </Text>
+                                        <Text style={{
+                                            fontSize: '12px',
+                                            color: '#666',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            (Ký và ghi rõ họ tên)
+                                        </Text>
+                                    </div>
+                                    <div style={{
+                                        height: '60px',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <div style={{ textAlign: 'center' }}>
+                                            <div>
+                                                <Text><i style={{
+                                                    textDecoration: 'underline',
+                                                }}>chinh</i></Text>
+                                            </div>
+                                            <div style={{
+                                                fontFamily: 'cursive',
+                                                fontSize: '16px',
+                                                marginBottom: '4px'
+                                            }}>
+                                                Trần Viết Chính
+                                            </div>
 
-                    <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                        <Text italic>Cảm ơn quý khách đã sử dụng dịch vụ!</Text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+
+                            <Col xs={24} sm={12} style={{ textAlign: 'center' }}>
+                                <div style={{
+                                    padding: '10px',
+                                    border: '1px solid #f1eeee',
+                                    borderRadius: '8px',
+                                    minHeight: '120px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-between'
+                                }}>
+                                    <div>
+                                        <Text strong style={{
+                                            fontSize: '16px',
+                                            display: 'block',
+                                            marginBottom: '8px'
+                                        }}>
+                                            Khách hàng
+                                        </Text>
+                                        <Text style={{
+                                            fontSize: '12px',
+                                            color: '#666',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            (Ký và ghi rõ họ tên)
+                                        </Text>
+                                    </div>
+
+                                    <div style={{
+                                        height: '60px',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <div style={{ textAlign: 'center' }}>
+                                            <div>
+                                                <Text><i >.....</i></Text>
+                                            </div>
+                                            <div style={{
+                                                fontFamily: 'cursive',
+                                                fontSize: '16px',
+                                                marginBottom: '4px'
+                                            }}>
+                                                {bill.customerName}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+
+                        {/* Ngày ký */}
+                        <div style={{
+                            textAlign: 'center',
+                            marginTop: '20px',
+                            fontSize: '14px',
+                            color: '#666'
+                        }}>
+                            Đà Nẵng, ngày {new Date().getDate()} tháng {new Date().getMonth() + 1} năm {new Date().getFullYear()}
+                        </div>
                     </div>
+
                 </Card>
             </div>
         </Layout>

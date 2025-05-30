@@ -100,9 +100,41 @@ const deleteExportBillController = async (req, res) => {
         })
     }
 }
+const updateExportBillController = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { customerName, customerPhone, items } = req.body;
+        if (!customerName || !items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Customer name and items are required'
+            });
+        }
+        const update = await exportModel.findByIdAndUpdate(id, req.body, { new: true });
+        if (!update) {
+            return res.status(404).json({
+                success: false,
+                message: 'Export bill not found'
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: 'Export bill updated successfully',
+            data: update
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        })
+    }
+}
 module.exports = {
     createExportBillController,
     getExportBillController,
     getExportBillByIdController,
-    deleteExportBillController
+    deleteExportBillController,
+    updateExportBillController
 };
