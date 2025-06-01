@@ -10,7 +10,7 @@ yarn-error.log*
 
 # Environment variables
 .env
-
+Dockerfile
 # Build output
 dist/
 build/
